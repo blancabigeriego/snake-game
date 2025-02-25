@@ -1,17 +1,17 @@
 @font-face {
     font-family: 'Snake';
-    src: url('../../assets/fonts/Azora-FreeDemo.otf') format('truetype'); 
+    src: url('../../assets/fonts/Azora-FreeDemo.otf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
-  
+
   @font-face {
     font-family: 'Arcade';
-    src: url('../../assets/fonts/ka1.ttf') format('truetype'); 
+    src: url('../../assets/fonts/ka1.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
-  
+
   .init-container {
     display: flex;
     flex-direction: column;
@@ -24,49 +24,71 @@
     background-position: center;
     background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
-  
+
       .start-container {
-        height: 40vh; 
-        width: 30vw; 
+        height: 50vh;
+        width: 40vw;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(to right, #0f3443 0%, #34e69f 100%);
-        border-radius: 16px; 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
-        backdrop-filter: blur(5px); 
-        padding: 2rem; 
-        color: #ffffff; 
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        padding: 2rem;
+        color: #ffffff;
         text-align: center;
-  
+
         h1 {
           font-family: 'Arcade', sans-serif;
           color: #0f3443;
           font-size: 5rem;
           margin-top: 0;
           font-weight: 100;
+          animation: wave 1.5s infinite alternate ease-in-out;
         }
-  
+
         button {
           font-family: 'Arcade', sans-serif;
-          margin-top: 1rem; 
+          margin-top: 1rem;
           padding: 0.75rem 1.5rem;
-          background-color: #34e69f; 
-          border: none; 
-          border-radius: 8px; 
+          background-color: #34e69f;
+          border: none;
+          border-radius: 8px;
           color: #0f3443;
           font-size: 1rem;
           font-weight: bold;
           cursor: pointer;
-          transition: all 0.3s ease; 
+          transition: all 0.3s ease;
           letter-spacing: 0.2em;
+          animation: pulse 1.5s infinite alternate ease-in-out;
         }
-  
+
         button:hover {
-          background-color: #28c285; 
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-          transform: scale(1.05); 
+          background-color: #28c285;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          transform: scale(1.05);
         }
       }
+  }
+
+  @keyframes wave {
+    0%, 100% {
+      text-shadow: 0 0 5px #34e69f, 0 0 10px #0f3443;
+    }
+    50% {
+      text-shadow: 0 0 15px #34e69f, 0 0 25px #0f3443;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px #34e69f;
+    }
+    50% {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #34e69f;
+    }
   }

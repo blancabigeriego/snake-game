@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'Arcade';
+  src: url('../../assets/fonts/ka1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.init-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../../assets/snakeskin-image.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Roboto', sans-serif;
+
+    .game-container {
+      height: 50vh;
+      width: 40vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0f3443;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      padding: 2rem;
+      color: #ffffff;
+      text-align: center;
+
+      .countdown-container{
+
+        span{
+          color: #F3E35A;
+          font-size: 7rem;
+          font-family: 'Arcade', sans-serif;
+        }
+      }
+
+    }
+}
