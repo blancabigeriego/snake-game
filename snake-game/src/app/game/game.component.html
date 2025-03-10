@@ -1,8 +1,10 @@
 <div class="init-container">
   <div class="game-container">
-    <div class="countdown-container" *ngIf="isCountDown">
+    <div class="countdown-container" *ngIf="isCountDown && countDownNumber !== 4">
       <span>{{countDownNumber}}</span>
     </div>
+    <div class="game-grid">
 
+    </div>
   </div>
 </div>

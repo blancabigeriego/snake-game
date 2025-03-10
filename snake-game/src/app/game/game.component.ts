@@ -12,30 +12,49 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 export class GameComponent implements OnInit {
 
   public isCountDown: boolean = false;
-  public countDownNumber: number = 3;
+  public countDownNumber: number = 4;
+  public snake = [{x:10, y:10}];
+  public dx = 1;
+  public dy = 1;
+  private beepSound = new Audio('assets/sounds/beep.wav');
 
   ngOnInit(): void {
     this.startCountDown();
   };
 
   private startCountDown(): void {
+    this.beepSound.load();
     if (typeof window !== 'undefined') {
-      // Esto asegura que solo se ejecute en el navegador
-      const beepSound = new Audio('assets/sounds/beep.wav');
       this.isCountDown = true;
 
       const interval = setInterval(() => {
         if (this.countDownNumber > 0) {
-          beepSound.play(); // Reproduce el pitido solo si el número es mayor que 0
           this.countDownNumber--;
+          this.beepSound.play();
         } else if (this.countDownNumber === 0) {
-          beepSound.play(); // Si el número llega a 0, reproduce el pitido una última vez
-          clearInterval(interval); // Detenemos el intervalo
+          clearInterval(interval);
           this.isCountDown = false;
+          this.moveSnake();
         }
       }, 1000);
     }
-  }
+  };
+
+
+
+  public moveSnake() {
+
+    // Crear nueva cabeza avanzando en la dirección actual
+    const head = { x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy };
+
+    // Agregar nueva cabeza al inicio del array
+    this.snake.unshift(head);
+
+    // Eliminar la última parte del cuerpo para simular movimiento
+    this.snake.pop();
+}
+
+
 
 
 
