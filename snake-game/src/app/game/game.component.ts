@@ -1,6 +1,8 @@
 import { NgIf, NgFor} from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { HostListener } from '@angular/core';
+
 
 @Component({
   selector: 'app-game',
@@ -14,14 +16,32 @@ export class GameComponent implements OnInit {
   public isCountDown: boolean = false;
   public countDownNumber: number = 4;
   public snake = [{x:10, y:10}];
-  public dx = 1;
-  public dy = 1;
+  private direction = { x: 1, y: 0 };
+  private nextDirection = { x: 1, y: 0 };
   private beepSound = new Audio('assets/sounds/beep.wav');
   private gameInterval: any;
 
   ngOnInit(): void {
     this.startCountDown();
   };
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowUp':
+        if (this.direction.y === 0) this.nextDirection = { x: 0, y: -1 };
+        break;
+      case 'ArrowDown':
+        if (this.direction.y === 0) this.nextDirection = { x: 0, y: 1 };
+        break;
+      case 'ArrowLeft':
+        if (this.direction.x === 0) this.nextDirection = { x: -1, y: 0 };
+        break;
+      case 'ArrowRight':
+        if (this.direction.x === 0) this.nextDirection = { x: 1, y: 0 };
+        break;
+    }
+  }
+
 
   private startCountDown(): void {
     this.beepSound.load();
@@ -45,13 +65,18 @@ export class GameComponent implements OnInit {
 
   public moveSnake() {
 
-    // Crear nueva cabeza avanzando en la dirección actual
-    const head = { x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy };
+    this.direction = { ...this.nextDirection };
 
-    // Agregar nueva cabeza al inicio del array
+    const head = {
+      x: this.snake[0].x + this.direction.x,
+      y: this.snake[0].y + this.direction.y
+    };
+    const gridSize = 20;
+
+    head.x = (head.x + gridSize) % gridSize;
+    head.y = (head.y + gridSize) % gridSize;
+
     this.snake.unshift(head);
-
-    // Eliminar la última parte del cuerpo para simular movimiento
     this.snake.pop();
 };
 
