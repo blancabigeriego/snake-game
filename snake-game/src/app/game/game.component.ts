@@ -16,6 +16,7 @@ export class GameComponent implements OnInit {
   public isCountDown: boolean = false;
   public countDownNumber: number = 4;
   public snake = [{x:10, y:10}];
+  public food = { x: 0, y: 0 };
   private direction = { x: 1, y: 0 };
   private nextDirection = { x: 1, y: 0 };
   private beepSound = new Audio('assets/sounds/beep.wav');
@@ -55,6 +56,7 @@ export class GameComponent implements OnInit {
         } else if (this.countDownNumber === 0) {
           clearInterval(interval);
           this.isCountDown = false;
+          this.placeFood();
           this.startGameLoop();
         }
       }, 1000);
@@ -64,27 +66,39 @@ export class GameComponent implements OnInit {
 
 
   public moveSnake() {
-
     this.direction = { ...this.nextDirection };
-
     const head = {
       x: this.snake[0].x + this.direction.x,
       y: this.snake[0].y + this.direction.y
     };
-    const gridSize = 20;
 
-    head.x = (head.x + gridSize) % gridSize;
-    head.y = (head.y + gridSize) % gridSize;
-
-    this.snake.unshift(head);
-    this.snake.pop();
-};
+    if (head.x === this.food.x && head.y === this.food.y) {
+      this.snake.unshift(head);
+      this.placeFood();
+    } else {
+      this.snake.unshift(head);
+      this.snake.pop();
+    }
+  };
 
 private startGameLoop(): void {
   this.gameInterval = setInterval(() => {
     this.moveSnake();
   }, 200);
+};
+
+private getRandomPosition(): { x: number, y: number } {
+  const gridSize = 20;
+  return {
+    x: Math.floor(Math.random() * gridSize),
+    y: Math.floor(Math.random() * gridSize)
+  };
+};
+
+private placeFood(): void {
+  this.food = this.getRandomPosition();
 }
+
 
 
 

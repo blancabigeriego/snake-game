@@ -9,7 +9,12 @@
           class="snake-segment"
           [style.gridColumn]="segment.x + 1"
           [style.gridRow]="segment.y + 1"
-  ></div>
+        ></div>
+      <div
+        class="food"
+        [style.gridColumn]="food.x + 1"
+        [style.gridRow]="food.y + 1"
+      ></div>
     </div>
   </div>
 </div>
