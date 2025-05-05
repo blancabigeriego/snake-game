@@ -3,8 +3,13 @@
     <div class="countdown-container" *ngIf="isCountDown && countDownNumber !== 4">
       <span>{{countDownNumber}}</span>
     </div>
-    <div class="game-grid">
-
+    <div class="game-grid"  *ngIf="!isCountDown">
+      <div
+        *ngFor="let segment of snake"
+          class="snake-segment"
+          [style.gridColumn]="segment.x + 1"
+          [style.gridRow]="segment.y + 1"
+  ></div>
     </div>
   </div>
 </div>

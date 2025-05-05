@@ -1,11 +1,11 @@
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor} from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NgIf],
+  imports: [RouterOutlet, RouterLink, NgIf, NgFor],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
   public dx = 1;
   public dy = 1;
   private beepSound = new Audio('assets/sounds/beep.wav');
+  private gameInterval: any;
 
   ngOnInit(): void {
     this.startCountDown();
@@ -34,7 +35,7 @@ export class GameComponent implements OnInit {
         } else if (this.countDownNumber === 0) {
           clearInterval(interval);
           this.isCountDown = false;
-          this.moveSnake();
+          this.startGameLoop();
         }
       }, 1000);
     }
@@ -52,6 +53,12 @@ export class GameComponent implements OnInit {
 
     // Eliminar la última parte del cuerpo para simular movimiento
     this.snake.pop();
+};
+
+private startGameLoop(): void {
+  this.gameInterval = setInterval(() => {
+    this.moveSnake();
+  }, 200);
 }
 
 
