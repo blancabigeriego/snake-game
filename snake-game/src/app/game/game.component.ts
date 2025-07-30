@@ -78,6 +78,11 @@ export class GameComponent implements OnInit {
       y: (this.snake[0].y + this.direction.y + gridSize) % gridSize
     };
 
+    if (this.hasSelfCollision(head)) {
+      this.gameOver();
+      return;
+    }
+
     if (head.x === this.food.x && head.y === this.food.y) {
       this.snake.unshift(head);
       this.placeFood();
@@ -86,6 +91,12 @@ export class GameComponent implements OnInit {
       this.snake.pop();
     }
   };
+
+  private hasSelfCollision(head: { x: number, y: number }): boolean {
+    // Revisa si la cabeza está en la misma posición que algún segmento del cuerpo (excepto la cabeza)
+    return this.snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y);
+  }
+
 
 private startGameLoop(): void {
   this.gameInterval = setInterval(() => {
@@ -102,8 +113,24 @@ private getRandomPosition(): { x: number, y: number } {
 };
 
 private placeFood(): void {
-  this.food = this.getRandomPosition();
+  let newFoodPos;
+
+  do {
+    newFoodPos = this.getRandomPosition();
+  } while (this.isOnSnake(newFoodPos));
+
+  this.food = newFoodPos;
+};
+
+private isOnSnake(position: { x: number, y: number }): boolean {
+  return this.snake.some(segment => segment.x === position.x && segment.y === position.y);
 }
+
+private gameOver(): void {
+  clearInterval(this.gameInterval);
+  alert('¡Game Over! Te chocaste.');
+}
+
 
 
 
