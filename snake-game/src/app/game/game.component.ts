@@ -27,6 +27,11 @@ export class GameComponent implements OnInit {
   };
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
+    const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
+    if (arrowKeys.includes(event.key)) {
+      event.preventDefault();
+    }
     switch (event.key) {
       case 'ArrowUp':
         if (this.direction.y === 0) this.nextDirection = { x: 0, y: -1 };
@@ -67,9 +72,10 @@ export class GameComponent implements OnInit {
 
   public moveSnake() {
     this.direction = { ...this.nextDirection };
+    const gridSize = 20;
     const head = {
-      x: this.snake[0].x + this.direction.x,
-      y: this.snake[0].y + this.direction.y
+      x: (this.snake[0].x + this.direction.x + gridSize) % gridSize,
+      y: (this.snake[0].y + this.direction.y + gridSize) % gridSize
     };
 
     if (head.x === this.food.x && head.y === this.food.y) {
