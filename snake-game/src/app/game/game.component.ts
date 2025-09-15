@@ -13,6 +13,7 @@ import { HostListener } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
+  public isGameOver = false;
   public isCountDown: boolean = false;
   public countDownNumber: number = 4;
   public snake = [{x:10, y:10}];
@@ -92,44 +93,52 @@ export class GameComponent implements OnInit {
     }
   };
 
-  private hasSelfCollision(head: { x: number, y: number }): boolean {
-    // Revisa si la cabeza está en la misma posición que algún segmento del cuerpo (excepto la cabeza)
-    return this.snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y);
+  public restartGame() {
+    this.snake = [{ x: 10, y: 10 }];
+    this.direction = { x: 1, y: 0 };
+    this.nextDirection = { x: 1, y: 0 };
+    this.countDownNumber = 4;
+    this.isGameOver = false;
+    this.startCountDown();
   }
 
-
-private startGameLoop(): void {
-  this.gameInterval = setInterval(() => {
-    this.moveSnake();
-  }, 200);
-};
-
-private getRandomPosition(): { x: number, y: number } {
-  const gridSize = 20;
-  return {
-    x: Math.floor(Math.random() * gridSize),
-    y: Math.floor(Math.random() * gridSize)
+  private hasSelfCollision(head: { x: number, y: number }): boolean {
+    return this.snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y);
   };
-};
 
-private placeFood(): void {
-  let newFoodPos;
 
-  do {
-    newFoodPos = this.getRandomPosition();
-  } while (this.isOnSnake(newFoodPos));
+  private startGameLoop(): void {
+    this.gameInterval = setInterval(() => {
+      this.moveSnake();
+    }, 200);
+  };
 
-  this.food = newFoodPos;
-};
+  private getRandomPosition(): { x: number, y: number } {
+    const gridSize = 20;
+    return {
+      x: Math.floor(Math.random() * gridSize),
+      y: Math.floor(Math.random() * gridSize)
+    };
+  };
 
-private isOnSnake(position: { x: number, y: number }): boolean {
-  return this.snake.some(segment => segment.x === position.x && segment.y === position.y);
-}
+  private placeFood(): void {
+    let newFoodPos;
 
-private gameOver(): void {
-  clearInterval(this.gameInterval);
-  alert('¡Game Over! Te chocaste.');
-}
+    do {
+      newFoodPos = this.getRandomPosition();
+    } while (this.isOnSnake(newFoodPos));
+
+    this.food = newFoodPos;
+  };
+
+  private isOnSnake(position: { x: number, y: number }): boolean {
+    return this.snake.some(segment => segment.x === position.x && segment.y === position.y);
+  }
+
+  private gameOver(): void {
+    clearInterval(this.gameInterval);
+    this.isGameOver = true;
+  };
 
 
 

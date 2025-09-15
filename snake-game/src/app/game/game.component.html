@@ -16,5 +16,9 @@
         [style.gridRow]="food.y + 1"
       ></div>
     </div>
+    <div class="game-over-overlay" *ngIf="isGameOver">
+      <h2 class="title">Game Over</h2>
+      <button (click)="restartGame()">Play Again</button>
+    </div>
   </div>
 </div>
